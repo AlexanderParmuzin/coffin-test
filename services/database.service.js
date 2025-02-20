@@ -1,4 +1,5 @@
 const dbsConfig = require("../config").dbs;
+const connectionFactory = require("../DB/sample-db/index");
 const logger = require("./logger.service")(module);
 
 /**
@@ -13,6 +14,8 @@ class Database {
 
   #connection;
 
+  #models
+
   constructor(config) {
     this.#uri = config.uri;
     this.#id = config.id;
@@ -24,8 +27,13 @@ class Database {
    * @return {Promise<void>}
    */
   async connect() {
+    // const connectUrl = `${this.#uri}/${this.#database}`;
+    const connectUrl = `mongodb://localhost:27017/coffin`;
+
     try {
-      // todo: метод установки соединения с БД
+      this.#connection = await connectionFactory(connectUrl);
+      this.#models = this.#connection?.models;
+      // this.#connection = await mongoose.connect(`${this.#uri}/${this.#database}`);
       logger.info(`Connected to ${this.#id}`);
     } catch (error) {
       logger.error(`Unable to connect to ${this.#id}:`, error.message);
@@ -39,7 +47,7 @@ class Database {
   async disconnect() {
     if (this.#connection) {
       try {
-        // todo: метод закрытия соединения с БД
+        this.#connection.disconnect();
         logger.info(`Disconnected from ${this.#id}`);
       } catch (error) {
         logger.error(`Unable to disconnect from ${this.#id}:`, error.message);
@@ -53,6 +61,14 @@ class Database {
    */
   get connection() {
     return this.#connection;
+  }
+
+  /**
+   * Возвращает инициализированные модели,
+   * @return {Object}
+   */
+  get models() {
+    return this.#models;
   }
 }
 

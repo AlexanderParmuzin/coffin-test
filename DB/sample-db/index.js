@@ -1,11 +1,10 @@
-const { sampleDB } = require("../../services/database.service");
+const mongoose = require("mongoose");
 
-function connectionFactory() {
-  const { connection } = sampleDB;
+module.exports = async function connectionFactory(connectUrl) {
+  const connection = await mongoose.connect(connectUrl);
 
-  // conn.model("SampleModel", require("./schemas/SampleModel"), "collection");
+  connection.models.User = connection.model("User", require("./schemas/users"));
+  connection.models.Company = connection.model("Company", require("./schemas/companies"));
 
   return connection;
 }
-
-module.exports = connectionFactory;
