@@ -1,63 +1,101 @@
 const { OK } = require("../../../constants/http-codes");
 
 module.exports = {
-  "/users/auth": {
-    get: {
-      summary: "Retrieves authorization token",
-      description:
-        "Used to retrive authorization token for the defined user data",
+  "/users/signup": {
+    post: {
+      summary: "Creates a new user",
+      description: "Creates a new user with login and password",
       tags: ["Users"],
-      parameters: [
-        {
-          in: "query",
-          name: "user",
-          required: true,
-          description: "User data",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                login: {
+                  type: "string",
+                  description: "User login (username)",
+                  example: "rick.grimes",
+                },
+                password: {
+                  type: "string",
+                  description: "User password",
+                  example: "password123",
+                  minLength: 6,
+                  maxLength: 20,
+                },
+              },
+              required: ["login", "password"], // Marking login and password as required
+            },
+          },
+        },
+      },
+      responses: {
+        [OK]: {
+          description: "Success message",
           content: {
             "application/json": {
               schema: {
                 type: "object",
                 properties: {
-                  id: {
-                    type: "integer",
-                    description: "User identifier",
-                    example: 1,
-                  },
-                  full_name: {
+                  message: {
                     type: "string",
-                    description: "User full name",
-                    example: "Rick Grimes",
-                  },
+                    description: "Success message",
+                    example: "signup success",
+                  }
                 },
               },
             },
           },
         },
-      ],
-      responses: {
-        [OK]: {
-          description: "User data",
-          headers: {
-            Authorization: {
-              schema: {
-                type: "string",
-              },
-              description: "Bearer authorization token",
-            },
-          },
-          content: {
-            "application/json": {
+      },
+    },
+  },
+
+  "/users/login": {
+    post: {
+      summary: "User login",
+      description: "Authorizes user and saves Bearer token in headers",
+      tags: ["Users"],
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
               type: "object",
               properties: {
-                id: {
+                login: {
                   type: "string",
-                  description: "User identifier",
-                  example: 1,
+                  description: "User login (username)",
+                  example: "rick.grimes",
                 },
-                full_name: {
+                password: {
                   type: "string",
-                  description: "User full name",
-                  example: "Rick Grimes",
+                  description: "User password",
+                  example: "password123",
+                  minLength: 6,
+                  maxLength: 20,
+                },
+              },
+              required: ["login", "password"], // Marking login and password as required
+            },
+          },
+        },
+      },
+      responses: {
+        [OK]: {
+          description: "Success message",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  message: {
+                    type: "string",
+                    description: "Success message",
+                    example: "login success",
+                  }
                 },
               },
             },

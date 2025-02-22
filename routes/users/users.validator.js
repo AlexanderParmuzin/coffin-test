@@ -30,7 +30,7 @@ const postSignup = [
     .isLength({ min: 6, max: 12})
     .withMessage({
       code: UnprocessableEntity,
-      message: "password: has to be from 6 to 12 symbols",
+      message: "password: has to be from 6 to 20 symbols",
     }),
   validate,
 ];

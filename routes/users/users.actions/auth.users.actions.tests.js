@@ -58,7 +58,7 @@ describe("Testing authorizing operations signup and login", () => {
         .send(unacceptableLoginPasswordBody);
       
       expect(response.status).toBe(httpCodes.UNPROCESSABLE_ENTITY);
-      expect(response.body.message).toBe("password: has to be from 6 to 12 symbols");
+      expect(response.body.message).toBe("password: has to be from 6 to 20 symbols");
     });
   });
 
