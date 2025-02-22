@@ -1,3 +1,3 @@
 module.exports = {
-  ...require("./get-auth.users.action"),
+  ...require("./auth.users.action"),
 };
