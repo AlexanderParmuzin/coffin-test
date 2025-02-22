@@ -34,7 +34,7 @@ async function login(req, res) {
   
     res.header("Authorization", `Bearer ${token}`);
     logger.success();
-    return res.status(OK).json({ message: "login succes" });
+    return res.status(OK).json({ message: "login success" });
   } catch (error) {
     return res.status(BAD_REQUEST);
   }
@@ -53,13 +53,19 @@ async function signup(req, res) {
   try {
     logger.init("post user signup");
     const { login, password } = req.body;
+
+    const existingUser = await User.findOne({ login });
+  
+    if (existingUser) {
+      return res.status(BAD_REQUEST).json({ message: "login already taken" });
+    }
   
     const hashPassword = bcrypt.hashSync(password, 10);
     const user = new User({ login, password: hashPassword });
     await user.save();
   
     logger.success();
-    return res.status(OK).json({ message: "signup succes" });
+    return res.status(OK).json({ message: "signup success" });
   } catch (error) {
     return res.status(BAD_REQUEST).json({ message: error.message });
   }

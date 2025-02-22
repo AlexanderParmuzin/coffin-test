@@ -1,5 +1,4 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
-const _ = require("lodash");
 const request = require("supertest");
 const { app } = require("../../../../app");
 const v = require("../../../../config").prefix;

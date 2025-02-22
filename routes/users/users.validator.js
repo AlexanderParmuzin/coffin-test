@@ -11,10 +11,9 @@ const postLogin = [
     }),
   check("password")
     .notEmpty()
-    .isLength({ min: 6, max: 12})
     .withMessage({
       code: UnprocessableEntity,
-      message: "password: has to be from 6 to 12 symbols",
+      message: "password: parameter is required",
     }),
   validate,
 ];
@@ -28,9 +27,10 @@ const postSignup = [
     }),
   check("password")
     .notEmpty()
+    .isLength({ min: 6, max: 12})
     .withMessage({
       code: UnprocessableEntity,
-      message: "password: parameter is required",
+      message: "password: has to be from 6 to 12 symbols",
     }),
   validate,
 ];

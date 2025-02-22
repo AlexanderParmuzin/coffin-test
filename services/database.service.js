@@ -1,4 +1,4 @@
-const dbsConfig = require("../config").dbs;
+const dbsConfig = require("../config");
 const connectionFactory = require("../DB/sample-db/index");
 const logger = require("./logger.service")(module);
 
@@ -27,8 +27,8 @@ class Database {
    * @return {Promise<void>}
    */
   async connect() {
-    // const connectUrl = `${this.#uri}/${this.#database}`;
-    const connectUrl = `mongodb://localhost:27017/coffin`;
+    const connectUrl = `${this.#uri}/${this.#database}`;
+    // const connectUrl = `mongodb://localhost:27017/coffin`;
 
     try {
       this.#connection = await connectionFactory(connectUrl);
@@ -72,6 +72,6 @@ class Database {
   }
 }
 
-const sampleDB = new Database(dbsConfig.sample_db);
+const sampleDB = new Database(dbsConfig);
 
 module.exports = { sampleDB };
