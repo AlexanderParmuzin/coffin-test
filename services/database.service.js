@@ -28,12 +28,10 @@ class Database {
    */
   async connect() {
     const connectUrl = `${this.#uri}/${this.#database}`;
-    // const connectUrl = `mongodb://localhost:27017/coffin`;
 
     try {
       this.#connection = await connectionFactory(connectUrl);
       this.#models = this.#connection?.models;
-      // this.#connection = await mongoose.connect(`${this.#uri}/${this.#database}`);
       logger.info(`Connected to ${this.#id}`);
     } catch (error) {
       logger.error(`Unable to connect to ${this.#id}:`, error.message);
